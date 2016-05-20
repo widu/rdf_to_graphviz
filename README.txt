@@ -1,7 +1,7 @@
 
 Example:
 
-require 'ruby-graphviz'
++require 'ruby-graphviz'+
 require 'rdf_to_graphviz'
 
 konwerter = RdfToGraphviz.new
