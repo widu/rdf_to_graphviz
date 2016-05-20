@@ -1,7 +1,10 @@
+=rdf_to_graphviz.rb:  It's abble to generate simple dot graph from RDF::Graph
 
-Example:
 
-+require 'ruby-graphviz'+
+---
+==Example:
+
+require 'ruby-graphviz'
 require 'rdf_to_graphviz'
 
 konwerter = RdfToGraphviz.new
