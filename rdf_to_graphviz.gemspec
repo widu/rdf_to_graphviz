@@ -1,8 +1,8 @@
 
 Gem::Specification.new do |s|
 	s.name = 'rdf_to_graphviz'
-	s.version = '0.0.0.1'
-	s.date = '2016-04-19'
+	s.version = '0.0.0.2'
+	s.date = '2016-04-21'
 	s.summary = "It's abble to generate simple dot graph from RDF::Graph"
 	s.description = "Gem translate RDF::Graph to Graphviz Dot format.
 	Require: linkeddata & sparql gems"
