@@ -7,6 +7,8 @@ require 'sparql'
 # Require 'ruby-graphviz' gem
 require 'ruby-graphviz'
 
+require 'cgi'
+
 
 # @note  The most advance example is show in scenrio 3. The most advance example is shown in scenario 3. The different gem (project) will address the question: how automatically generate graphviz attr file by rules.
 # @example scenario 1: Generates Graphviz graph from rdf_graph and save to png files (default files name: "res_graph.png")
@@ -23,8 +25,8 @@ require 'ruby-graphviz'
 # @example scenario 3: Generate Graphviz graph from rdf graph and save to png files using attributes defining in another rdf file
 #    require 'rdf_to_graphviz'
 #    konwerter = RdfToGraphviz.new
-#    queryable = RDF::Graph.load("./ttl/test1.ttl") 
-#    rdf_presentation_attr = = RDF::Graph.load("./ttl/grvz.ttl") # reads rdf which contain attr definitions from turtle file
+#    queryable = RDF::Graph.load("https://github.com/widu/rdf_to_graphviz/blob/master/ttl/test1.ttl") 
+#    rdf_presentation_attr = = RDF::Graph.load("https://github.com/widu/rdf_to_graphviz/blob/master/ttl/grvz.ttl") # reads rdf which contain attr definitions from turtle file
 #    options = {:presentation_attr => rdf_presentation_attr}
 #    konwerter.save_rdf_graph_as(queryable, options)
 
@@ -115,18 +117,27 @@ class RdfToGraphviz
 	def build_atr(rdf_graph)
 		
 		atr_lok = {}
+		
 		rdf_graph.each_statement do |statement|
 			p = statement[1].pname
 			# puts p
 			indx = p.index("grvz#")
 
 			if indx
-			  p1 = p[indx+5..-1].downcase
+			  p1 = p[indx+5..-1]
 			
 			  obj = term_name(statement[0])
 			# puts obj
 			# puts p
-			  st= statement[2].to_s
+			  st = statement[2].to_s
+			  # while st.include?("%7B") do
+			  
+			  # st1 = st.gsub('%7B', '{').gsub('%7D', '}').gsub('%20', ' ').gsub('%22', '"').gsub('%23', '#').gsub('%09', ' ').gsub("%7C", '|')
+			  # st = st1.gsub('&', '&amp;').gsub('%3C', '&lt;').gsub('%3E', '&gt;').gsub('%0A', '<BR/>')
+			  st1 = st.gsub('&', '&amp;').gsub('%3C', '&lt;').gsub('%3E', '&gt;').gsub('%0A', '<BR/>')
+			  st = CGI.unescape(st1)
+
+			  # end
 			  atr_lok = @atr[obj]
 			  if atr_lok == nil then
 				atr_lok = {p1 => st}
@@ -191,7 +202,12 @@ class RdfToGraphviz
 			build_atr(options[:presentation_attr])
 		end
 		g = build_graph(rdf_graph, options)
-		g.output( options[:format] => options[:file_name] )
+		if options[:format] == 'html' then
+			file_png = options[:file_name].gsub(/\.\w+$/, ".png")
+			g.output( :cmapx => options[:file_name], :png => file_png )
+		else
+			g.output( options[:format] => options[:file_name] )
+		end
 	end
 
 

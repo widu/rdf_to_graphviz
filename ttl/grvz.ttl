@@ -1,5 +1,5 @@
-@prefix grvz: 	<http://widu.pl/grvz#> .
-@prefix wd: 	<http://widu.pl/moje#> .
+@prefix grvz: 	<http://vieslav.pl/grvz#> .
+@prefix wd: 	<http://vieslav.pl/moje#> .
 
 wd:RulesTableTest2 grvz:Shape 'record' .
 wd:RulesTableTest2 grvz:Color 'yellow' .

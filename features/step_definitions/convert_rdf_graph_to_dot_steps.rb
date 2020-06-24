@@ -2,6 +2,7 @@ require 'rdf_to_graphviz'
 Given(/^the rdf_graph: "([^"]*)"$/) do |arg1|
   @rdf_graph = RDF::Graph.load(arg1)
   @options = {}
+  puts @rdf_graph
 end
 
 When(/^the rdf_graph_to_dot is run$/) do
@@ -11,7 +12,7 @@ end
 
 Then(/^the output should contain "([^"]*)"$/) do |arg1|
   expect(@output).to include(arg1)
-  puts @output
+  #puts @output
 end
 
 Given(/^the option :is_literal_object_uniq is true$/) do
@@ -21,8 +22,9 @@ end
 
 When(/^the build_atr is run$/) do
   konwerter = RdfToGraphviz.new
+
   @output = konwerter.build_atr(@rdf_graph)
-  puts @output
+  #puts @output
 end
 
 Then(/^the output is hash and should contain key "([^"]*)"$/) do |arg1|
